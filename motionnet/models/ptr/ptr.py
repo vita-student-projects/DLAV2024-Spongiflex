@@ -264,7 +264,11 @@ class PTR(BaseModel):
         :return: (T, B, N, H)
         '''
         ######################## Your code here ########################
-        pass
+        # Apply temporal attention layers and then the social attention layers on agents_emb, each for L_enc times.
+        agents_emb_pe = self.pos_encoder(agents_emb)  # Apply positional encoding
+        for i in range(len(self.temporal_attn_layers)):
+            agents_emb = self.temporal_attn_layers[i](agents_emb_pe, src_key_padding_mask=agent_masks)
+            agents_emb_pe = self.pos_encoder(agents_emb)  # Re-apply positional encoding after attention
         ################################################################
         return agents_emb
 
@@ -278,7 +282,9 @@ class PTR(BaseModel):
         :return: (T, B, N, H)
         '''
         ######################## Your code here ########################
-        pass
+        # Apply social attention layers on agents_emb, each for L_enc times.
+        for i in range(len(self.social_attn_layers)):
+            agents_emb = self.social_attn_layers[i](agents_emb, src_key_padding_mask=agent_masks)
         ################################################################
         return agents_emb
 
@@ -306,7 +312,8 @@ class PTR(BaseModel):
 
         ######################## Your code here ########################
         # Apply temporal attention layers and then the social attention layers on agents_emb, each for L_enc times.
-        pass
+        agents_emb_temporal = self.temporal_attn_fn(agents_emb, opps_masks, self.temporal_attn_layers)
+        agents_emb_social = self.social_attn_fn(agents_emb_temporal, opps_masks, self.social_attn_layers)
         ################################################################
 
         ego_soctemp_emb = agents_emb[:, :, 0]  # take ego-agent encodings only.
