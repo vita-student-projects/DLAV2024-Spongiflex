@@ -5,6 +5,8 @@
 | Martin Rollet | martin.rollet@epfl.ch | 300780 |
 | Julien Ars | julien.ars@epfl.ch | 314545 |
 
+> Github repo : https://github.com/merlebleue/DLAV2024-Spongiflex/tree/main
+
 ## Milestone 1 : 28th april 2024
 
 ### Introduction
@@ -42,3 +44,6 @@ for i in range(self.L_enc):
 ################################################################
 ```
 
+### Results
+
+Sadly, we encountered issues due to the presence of `nan` values in the dataset. This seemed to arrise from agents that do not exist in the sequence, but we did not manage to get rid of this error.
