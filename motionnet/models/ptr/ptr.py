@@ -264,7 +264,8 @@ class PTR(BaseModel):
         :return: (T, B, N, H)
         '''
         ######################## Your code here ########################
-        pass
+        for n in range(agents_emb.shape[2]): #per agent, assuming N is the number of agents
+            agents_emb[:,:,n,:] = layer(agents_emb[:,:,n,:], src_key_padding_mask=agent_masks[:,:,n])
         ################################################################
         return agents_emb
 
@@ -278,7 +279,8 @@ class PTR(BaseModel):
         :return: (T, B, N, H)
         '''
         ######################## Your code here ########################
-        pass
+        for t in range(agents_emb.shape[0]): #per time step, assuming T is the mnumber of time steps
+            agents_emb[t,:,:,:] = layer(agents_emb[t,:,:,:], src_key_padding_mask=agent_masks[:,t,:].permute(1,0))
         ################################################################
         return agents_emb
 
@@ -306,7 +308,9 @@ class PTR(BaseModel):
 
         ######################## Your code here ########################
         # Apply temporal attention layers and then the social attention layers on agents_emb, each for L_enc times.
-        pass
+        for i in range(self.L_enc):
+            agents_emb = self.temporal_attn_fn(agents_emb, opps_masks, self.temporal_attn_layers[i])
+            agents_emb = self.social_attn_fn(agents_emb, opps_masks, self.social_attn_layers[i])
         ################################################################
 
         ego_soctemp_emb = agents_emb[:, :, 0]  # take ego-agent encodings only.
