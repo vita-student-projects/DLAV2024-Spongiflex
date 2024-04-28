@@ -161,7 +161,8 @@ class PTR(BaseModel):
     def __init__(self, config, k_attr=2, map_attr=2):
 
         super(PTR, self).__init__(config)
-
+        
+        self.n_print = 0
         self.config = config
         init_ = lambda m: init(m, nn.init.xavier_normal_, lambda x: nn.init.constant_(x, 0), np.sqrt(2))
         self.T = config['future_len']
