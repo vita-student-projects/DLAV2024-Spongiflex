@@ -9,7 +9,7 @@
 
 ### Introduction
 
-This project is about prediting precise vehicle trajectory prediction, using the UniTraj framework from VITA lab @ EPFL. For this part, the objective is mainly familiarising ourselves with the framework. We use the provided `ptr` model, with a custom configuration, evaluated using minADE6 error.
+This project is about prediting precise vehicle trajectory prediction, using the UniTraj framework from VITA lab @ EPFL. For this part, the objective is mainly familiarising ourselves with the framework. We use the provided `ptr` model, with the default configuration, evaluated using minADE6 error.
 
 ### Code
 
