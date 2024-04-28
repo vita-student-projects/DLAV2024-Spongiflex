@@ -1,9 +1,9 @@
 # DLAV2024 PROJECT  : TEAM SPONGIFLEX
 
-| Student Name | Email | Sciper |
-|--------------|-------|--------|
+| Student Name  | Email                 | Sciper |
+| ------------- | --------------------- | ------ |
 | Martin Rollet | martin.rollet@epfl.ch | 300780 |
-| Julien Ars | julien.ars@epfl.ch | 314545 |
+| Julien Ars    | julien.ars@epfl.ch    | 314545 |
 
 > Github repo : https://github.com/merlebleue/DLAV2024-Spongiflex/tree/main
 
@@ -21,28 +21,31 @@ The configuration is here : [ptr.yaml](motionnet/configs/method/ptr.yaml)
 It consists of the provided code, with some parts we had to fill in. Here is our code :
 
 - Function `temporal_attn_fn()` :
-```python
-######################## Your code here ########################
-for n in range(agents_emb.shape[2]): #per agent, assuming N is the number of agents
+  
+  ```python
+  ######################## Your code here ########################
+  for n in range(agents_emb.shape[2]): #per agent, assuming N is the number of agents
     agents_emb[:,:,n,:] = layer(agents_emb[:,:,n,:], src_key_padding_mask=agent_masks[:,:,n])
-################################################################
-```
+  ################################################################
+  ```
 - Function`social_attn_fn()` :
-```python
-######################## Your code here ########################
-for t in range(agents_emb.shape[0]): #per time step, assuming T is the mnumber of time steps
+  
+  ```python
+  ######################## Your code here ########################
+  for t in range(agents_emb.shape[0]): #per time step, assuming T is the mnumber of time steps
     agents_emb[t,:,:,:] = layer(agents_emb[t,:,:,:], src_key_padding_mask=agent_masks[:,t,:].permute(1,0))
-################################################################
-```
+  ################################################################
+  ```
 - In the function `_forward()`:
-```python
-######################## Your code here ########################
-# Apply temporal attention layers and then the social attention layers on agents_emb, each for L_enc times.
-for i in range(self.L_enc):
+  
+  ```python
+  ######################## Your code here ########################
+  # Apply temporal attention layers and then the social attention layers on agents_emb, each for L_enc times.
+  for i in range(self.L_enc):
     agents_emb = self.temporal_attn_fn(agents_emb, opps_masks, self.temporal_attn_layers[i])
     agents_emb = self.social_attn_fn(agents_emb, opps_masks, self.social_attn_layers[i])
-################################################################
-```
+  ################################################################
+  ```
 
 ### Results
 
